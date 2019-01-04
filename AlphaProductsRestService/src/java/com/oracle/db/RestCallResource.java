@@ -14,6 +14,8 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PUT;
 import javax.ws.rs.core.MediaType;
 import com.oracle.db.ATPDBUtils;
+import javax.ws.rs.FormParam;
+import javax.ws.rs.POST;
 import javax.ws.rs.PathParam;
 
 /**
@@ -50,7 +52,14 @@ public class RestCallResource {
         return ATPDBUtils.getProducts(id).toJSONString();
     }
     
-
+    @POST
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    public String postJson(@FormParam("PRODUCT_NAME") String name,
+      @FormParam("EXTERNAL_URL") String url){
+        ATPDBUtils.saveProducts(url, name);
+        return "Successfully Saved.";
+    }
     /**
      * PUT method for updating or creating an instance of RestCallResource
      * @param content representation for the resource
