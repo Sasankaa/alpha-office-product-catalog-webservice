@@ -23,7 +23,7 @@ Alpha Office Catalog Webservice
 
 ![alt text](https://github.com/Sasankaa/Misc/blob/master/post.png)
 
-####  To test this webservice without using Netbeans Environment.
+####  To test this webservice without using Dockerfile.
 
 1. Download war file
 
