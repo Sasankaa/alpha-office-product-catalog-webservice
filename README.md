@@ -29,6 +29,10 @@ Alpha Office Catalog Webservice
 
 2. Unzip war file and change dbconfig.properties file according to your ATP instance configurations.
 
+  jar -cvf AlphaProductsRestService.war *  
+
 3. Zip war file again to test war file and host in Docker/Weblogic environment.
+
+  jar -xvf AlphaProductsRestService.war  
 
 4. Use Postman again to test this webservice
