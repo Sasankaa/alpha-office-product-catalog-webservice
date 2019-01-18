@@ -194,6 +194,40 @@ public class ATPDBUtils {
             e.printStackTrace();
         }
     }
+     public static void deleteProducts(int prodID) {
+    readProperties();
+    JSONArray products = new JSONArray();
+        try {
+            OracleDataSource ODS = new OracleDataSource();
+
+            ODS.setURL("jdbc:oracle:thin:@" + INSTANCE + "?TNS_ADMIN=" + CREDENTIALS);
+            ODS.setUser(USER);
+            ODS.setPassword(PASSWORD);
+            //ODS.getConnection();
+            Connection conn = ODS.getConnection();
+            System.out.println("Connection test Succeeded. You are connected to ATP as Admin!");
+            Statement stmt = conn.createStatement();
+
+            // Select the ENAME column from the EMP table
+            ResultSet rset = stmt.executeQuery("DELETE FROM PRODUCTS WHERE PRODUCT_ID="+prodID);
+            JSONObject obj;//
+            // Close the RseultSet
+            rset.close();
+            rset = null;
+
+            // Close the Statement
+            stmt.close();
+            stmt = null;
+            
+            conn.close();
+            
+
+        } catch (SQLException e) {
+            System.out.println("Connection Unsuccessful with errror " + e.getMessage());
+            e.printStackTrace();
+        }
+     }
+            
     private static void readProperties() {
         Properties prop = new Properties();
         InputStream input = null;

@@ -15,6 +15,7 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.core.MediaType;
 import com.oracle.db.ATPDBUtils;
 import com.oracle.db.ATPDBUtils;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.PathParam;
@@ -51,6 +52,14 @@ public class RestCallResource {
     @Produces(MediaType.APPLICATION_JSON)
     public String getJson(@PathParam("PRODUCT_ID") int id){
         return ATPDBUtils.getProducts(id).toJSONString();
+    }
+    
+    @DELETE
+    @Path("/{PRODUCT_ID}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String deleteJson(@PathParam("PRODUCT_ID") int id){
+         ATPDBUtils.deleteProducts(id);
+         return "Successfully Deleted.";
     }
     
     @POST
