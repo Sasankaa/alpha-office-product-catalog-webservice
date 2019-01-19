@@ -25,7 +25,7 @@ Alpha Office Catalog Webservice
 
 8. DELETE operation for product catalogs
 
-![alt text](https://github.com/Sasankaa/Misc/blob/master/post.png)
+![alt text](https://github.com/Sasankaa/Misc/blob/master/delete.png)
 
 9. PUT operation for product catalog
 
