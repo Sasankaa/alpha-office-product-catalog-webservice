@@ -23,6 +23,19 @@ Alpha Office Catalog Webservice
 
 ![alt text](https://github.com/Sasankaa/Misc/blob/master/post.png)
 
+8. DELETE operation for product catalogs
+
+![alt text](https://github.com/Sasankaa/Misc/blob/master/delete.png)
+
+9. PUT operation for product catalog
+
+![alt text](https://github.com/Sasankaa/Misc/blob/master/put.png)
+
+10. PATCH operation for product catalog
+
+![alt text](https://github.com/Sasankaa/Misc/blob/master/patch.png)
+
+
 ####  To test this webservice using Dockerfile.
 
 1. Download war file
