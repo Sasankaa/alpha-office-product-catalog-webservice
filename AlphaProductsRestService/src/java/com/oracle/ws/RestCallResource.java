@@ -19,6 +19,7 @@ import javax.ws.rs.DELETE;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.PathParam;
+import com.oracle.cl.Product;
 
 /**
  * REST Web Service
@@ -64,10 +65,11 @@ public class RestCallResource {
     
     @POST
     @Produces(MediaType.APPLICATION_JSON)
-    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-    public String postJson(@FormParam("PRODUCT_NAME") String name,
-      @FormParam("EXTERNAL_URL") String url){
-        ATPDBUtils.saveProducts(url, name);
+    @Consumes(MediaType.APPLICATION_JSON)
+    public String postJson(Product p){
+        ATPDBUtils.saveProducts(p.PRODUCT_NAME.toString(),
+                Double.parseDouble(p.LIST_PRICE.toString()));
+                
         return "Successfully Saved.";
     }
     /**

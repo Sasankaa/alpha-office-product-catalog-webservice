@@ -168,7 +168,7 @@ public class ATPDBUtils {
         }
         return products;
     }
-    public static void saveProducts(String url, String prodname) {
+    public static void saveProducts(String prodname, double listPrice) {
     readProperties();
         try {
             OracleDataSource ODS = new OracleDataSource();
@@ -182,8 +182,9 @@ public class ATPDBUtils {
             Statement stmt = conn.createStatement();
             Random rand = new Random();
             int n = rand.nextInt(5000) + 1;
+            String url = "https://objectstorage.us-ashburn-1.oraclecloud.com/p/L-VE2JhzKArznQyrCcWULYZSXGgP3KYIQoiLKDCnBrY/n/natdcshjumpstartprod/b/AlphaOffice-images/o/1038-Write-Expo_Dry_Erase_12.jpg";
             // Select the ENAME column from the EMP table
- stmt.executeUpdate("INSERT INTO PRODUCTS (PRODUCT_ID, PARENT_CATEGORY_ID, CATEGORY_ID, PRODUCT_NAME, PRODUCT_STATUS, COST_PRICE, LIST_PRICE, MIN_PRICE, warranty_period_months, EXTERNAL_URL, ATTRIBUTE_CATEGORY, ATTRIBUTE1, ATTRIBUTE2, ATTRIBUTE3, ATTRIBUTE4, ATTRIBUTE5, CREATED_BY, CREATION_DATE, LAST_UPDATED_BY, LAST_UPDATE_DATE, OBJECT_VERSION_ID) VALUES ("+n+", 10003.0, 10012.0, '"+prodname+"', 'AVAILABLE', 3.49, 4.99, 1.53, '6', '"+url+"', '', '', '', '', '', '6', '0', to_date('10-JAN-14', 'DD-MON-RR'), '0', to_date('10-JAN-14', 'DD-MON-RR'), 1.0)");            
+ stmt.executeUpdate("INSERT INTO PRODUCTS (PRODUCT_ID, PARENT_CATEGORY_ID, CATEGORY_ID, PRODUCT_NAME, PRODUCT_STATUS, COST_PRICE, LIST_PRICE, MIN_PRICE, warranty_period_months, EXTERNAL_URL, ATTRIBUTE_CATEGORY, ATTRIBUTE1, ATTRIBUTE2, ATTRIBUTE3, ATTRIBUTE4, ATTRIBUTE5, CREATED_BY, CREATION_DATE, LAST_UPDATED_BY, LAST_UPDATE_DATE, OBJECT_VERSION_ID) VALUES (prodid_seq.nextval, 10003.0, 10012.0, '"+prodname+"', 'AVAILABLE', 3.49, '"+listPrice+"', 1.53, '6', '"+url+"', '', '', '', '', '', '6', '0', to_date('10-JAN-14', 'DD-MON-RR'), '0', to_date('10-JAN-14', 'DD-MON-RR'), 1.0)");            
 //stmt.executeUpdate("INSERT INTO PRODUCTS (PRODUCT_ID, PARENT_CATEGORY_ID, CATEGORY_ID, PRODUCT_NAME, PRODUCT_STATUS, COST_PRICE, LIST_PRICE, MIN_PRICE, warranty_period_months, EXTERNAL_URL, ATTRIBUTE_CATEGORY, ATTRIBUTE1, ATTRIBUTE2, ATTRIBUTE3, ATTRIBUTE4, ATTRIBUTE5, CREATED_BY, CREATION_DATE, LAST_UPDATED_BY, LAST_UPDATE_DATE, OBJECT_VERSION_ID) VALUES (10020.0, 10000.0, 10017.0, 'Scotch¿ Bubble Pouches, 8 x 10, Clear, Pack Of 8', 'AVAILABLE', 14.37, 16.99, 12.25, '6', 'Images/OfficeSupplyProducts/Ship/Ship-BubbleWrap_8x10.jpg', '', '', '', '', '', '6', '0', to_date('10-JAN-14', 'DD-MON-RR'), '0', to_date('10-JAN-14', 'DD-MON-RR'), 1.0)");            
 // Close the Statement
             stmt.close();
