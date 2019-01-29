@@ -78,20 +78,19 @@ public class RestCallResource {
      */
     @PUT
     @Produces(MediaType.APPLICATION_JSON)
-    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-    public String putJson(@FormParam("PRODUCT_ID") int id, @FormParam("PRODUCT_NAME") String name,
-      @FormParam("EXTERNAL_URL") String url) {
-        ATPDBUtils.updateProducts(id, url, name);
+    @Consumes(MediaType.APPLICATION_JSON)
+    public String putJson(Product p) {
+        ATPDBUtils.updateProducts(Integer.parseInt(p.PRODUCT_ID.toString()), p.PRODUCT_NAME.toString(),
+                Double.parseDouble(p.LIST_PRICE.toString()));
         return "Successfully Updated.";
     }
     
     @PATCH
-    @Path("/{PRODUCT_ID}")
     @Produces(MediaType.APPLICATION_JSON)
-    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-    public String patchJson(@PathParam("PRODUCT_ID") int id,
-      @FormParam("EXTERNAL_URL") String url){
-        ATPDBUtils.updateProducts(id, url);
+    @Consumes(MediaType.APPLICATION_JSON)
+    public String patchJson(Product p){
+        ATPDBUtils.updateProducts(Integer.parseInt(p.PRODUCT_ID.toString()),
+                Double.parseDouble(p.LIST_PRICE.toString()));
         return "Successfully Updated - Patch Operation.";
     }
     
