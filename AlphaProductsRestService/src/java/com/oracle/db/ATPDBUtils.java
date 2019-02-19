@@ -12,23 +12,24 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Properties;
-import java.util.Random;
 import oracle.jdbc.pool.OracleDataSource;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+
 /**
  *
  * @author sasanka
  */
 public class ATPDBUtils {
+
     private static String INSTANCE = "";
     private static String CREDENTIALS = "";
     private static String USER = "";
     private static String PASSWORD = "";
-    
+
     public static JSONArray getProducts() {
-    readProperties();
-    JSONArray products = new JSONArray();
+        readProperties();
+        JSONArray products = new JSONArray();
         try {
             OracleDataSource ODS = new OracleDataSource();
 
@@ -40,20 +41,13 @@ public class ATPDBUtils {
             System.out.println("Connection test Succeeded. You are connected to ATP as Admin!");
             Statement stmt = conn.createStatement();
 
-            // Select the ENAME column from the EMP table
+            // Select all from the products table
             ResultSet rset = stmt.executeQuery("SELECT * FROM PRODUCTS");
             JSONObject obj;// = new JSONObject();
-            
-            //products.add("PRODUCT_ID "+":"+"1039");
-            //products.add("PARENT_CATEGORY_ID"+":"+"1039");
-            //products.add("CATEGORY_ID"+":"+"1039");
-            //obj.put("Products", products);
 
-            // Iterate through the result and print the employee names
             while (rset.next()) {
                 obj = new JSONObject();
                 obj.put("PRODUCT_ID", rset.getInt("PRODUCT_ID"));
-
                 obj.put("PARENT_CATEGORY_ID", rset.getInt("PARENT_CATEGORY_ID"));
                 obj.put("CATEGORY_ID", rset.getInt("CATEGORY_ID"));
                 obj.put("PRODUCT_NAME", rset.getString("PRODUCT_NAME"));
@@ -87,7 +81,7 @@ public class ATPDBUtils {
             // Close the Statement
             stmt.close();
             stmt = null;
-            
+
             conn.close();
             return products;
 
@@ -97,9 +91,10 @@ public class ATPDBUtils {
         }
         return products;
     }
+
     public static JSONArray getProducts(int prodID) {
-    readProperties();
-    JSONArray products = new JSONArray();
+        readProperties();
+        JSONArray products = new JSONArray();
         try {
             OracleDataSource ODS = new OracleDataSource();
 
@@ -111,20 +106,14 @@ public class ATPDBUtils {
             System.out.println("Connection test Succeeded. You are connected to ATP as Admin!");
             Statement stmt = conn.createStatement();
 
-            // Select the ENAME column from the EMP table
-            ResultSet rset = stmt.executeQuery("SELECT * FROM PRODUCTS WHERE PRODUCT_ID="+prodID);
+            // Select the all columns from the products table for given prodID
+            ResultSet rset = stmt.executeQuery("SELECT * FROM PRODUCTS WHERE PRODUCT_ID=" + prodID);
             JSONObject obj;// = new JSONObject();
-            
-            //products.add("PRODUCT_ID "+":"+"1039");
-            //products.add("PARENT_CATEGORY_ID"+":"+"1039");
-            //products.add("CATEGORY_ID"+":"+"1039");
-            //obj.put("Products", products);
 
-            // Iterate through the result and print the employee names
+            // Iterate through the product and insert into JSONObject
             while (rset.next()) {
                 obj = new JSONObject();
                 obj.put("PRODUCT_ID", rset.getInt("PRODUCT_ID"));
-
                 obj.put("PARENT_CATEGORY_ID", rset.getInt("PARENT_CATEGORY_ID"));
                 obj.put("CATEGORY_ID", rset.getInt("CATEGORY_ID"));
                 obj.put("PRODUCT_NAME", rset.getString("PRODUCT_NAME"));
@@ -158,7 +147,7 @@ public class ATPDBUtils {
             // Close the Statement
             stmt.close();
             stmt = null;
-            
+
             conn.close();
             return products;
 
@@ -168,8 +157,9 @@ public class ATPDBUtils {
         }
         return products;
     }
+
     public static void saveProducts(String prodname, double listPrice) {
-    readProperties();
+        readProperties();
         try {
             OracleDataSource ODS = new OracleDataSource();
 
@@ -180,24 +170,24 @@ public class ATPDBUtils {
             Connection conn = ODS.getConnection();
             System.out.println("Connection test Succeeded. You are connected to ATP as Admin!");
             Statement stmt = conn.createStatement();
-            Random rand = new Random();
-            int n = rand.nextInt(5000) + 1;
+
             String url = "https://objectstorage.us-ashburn-1.oraclecloud.com/p/L-VE2JhzKArznQyrCcWULYZSXGgP3KYIQoiLKDCnBrY/n/natdcshjumpstartprod/b/AlphaOffice-images/o/1038-Write-Expo_Dry_Erase_12.jpg";
-            // Select the ENAME column from the EMP table
- stmt.executeUpdate("INSERT INTO PRODUCTS (PRODUCT_ID, PARENT_CATEGORY_ID, CATEGORY_ID, PRODUCT_NAME, PRODUCT_STATUS, COST_PRICE, LIST_PRICE, MIN_PRICE, warranty_period_months, EXTERNAL_URL, ATTRIBUTE_CATEGORY, ATTRIBUTE1, ATTRIBUTE2, ATTRIBUTE3, ATTRIBUTE4, ATTRIBUTE5, CREATED_BY, CREATION_DATE, LAST_UPDATED_BY, LAST_UPDATE_DATE, OBJECT_VERSION_ID) VALUES (prodid_seq.nextval, 10003.0, 10012.0, '"+prodname+"', 'AVAILABLE', 3.49, '"+listPrice+"', 1.53, '6', '"+url+"', '', '', '', '', '', '6', '0', to_date('10-JAN-14', 'DD-MON-RR'), '0', to_date('10-JAN-14', 'DD-MON-RR'), 1.0)");            
-//stmt.executeUpdate("INSERT INTO PRODUCTS (PRODUCT_ID, PARENT_CATEGORY_ID, CATEGORY_ID, PRODUCT_NAME, PRODUCT_STATUS, COST_PRICE, LIST_PRICE, MIN_PRICE, warranty_period_months, EXTERNAL_URL, ATTRIBUTE_CATEGORY, ATTRIBUTE1, ATTRIBUTE2, ATTRIBUTE3, ATTRIBUTE4, ATTRIBUTE5, CREATED_BY, CREATION_DATE, LAST_UPDATED_BY, LAST_UPDATE_DATE, OBJECT_VERSION_ID) VALUES (10020.0, 10000.0, 10017.0, 'Scotch¿ Bubble Pouches, 8 x 10, Clear, Pack Of 8', 'AVAILABLE', 14.37, 16.99, 12.25, '6', 'Images/OfficeSupplyProducts/Ship/Ship-BubbleWrap_8x10.jpg', '', '', '', '', '', '6', '0', to_date('10-JAN-14', 'DD-MON-RR'), '0', to_date('10-JAN-14', 'DD-MON-RR'), 1.0)");            
-// Close the Statement
+            // Execute update statement
+            stmt.executeUpdate("INSERT INTO PRODUCTS (PRODUCT_ID, PARENT_CATEGORY_ID, CATEGORY_ID, PRODUCT_NAME, PRODUCT_STATUS, COST_PRICE, LIST_PRICE, MIN_PRICE, warranty_period_months, EXTERNAL_URL, ATTRIBUTE_CATEGORY, ATTRIBUTE1, ATTRIBUTE2, ATTRIBUTE3, ATTRIBUTE4, ATTRIBUTE5, CREATED_BY, CREATION_DATE, LAST_UPDATED_BY, LAST_UPDATE_DATE, OBJECT_VERSION_ID) VALUES ('', 10003.0, 10012.0, '" + prodname + "', 'AVAILABLE', 3.49, '" + listPrice + "', 1.53, '6', '" + url + "', '', '', '', '', '', '6', '0', to_date('10-JAN-14', 'DD-MON-RR'), '0', to_date('10-JAN-14', 'DD-MON-RR'), 1.0)");
+
+            // Close the Statement
             stmt.close();
-            stmt = null;   
+            stmt = null;
             conn.close();
         } catch (SQLException e) {
             System.out.println("Connection Unsuccessful with errror " + e.getMessage());
             e.printStackTrace();
         }
     }
-     public static void deleteProducts(int prodID) {
-    readProperties();
-    JSONArray products = new JSONArray();
+
+    public static void deleteProducts(int prodID) {
+        readProperties();
+        JSONArray products = new JSONArray();
         try {
             OracleDataSource ODS = new OracleDataSource();
 
@@ -209,27 +199,27 @@ public class ATPDBUtils {
             System.out.println("Connection test Succeeded. You are connected to ATP as Admin!");
             Statement stmt = conn.createStatement();
 
-            // Select the ENAME column from the EMP table
-            ResultSet rset = stmt.executeQuery("DELETE FROM PRODUCTS WHERE PRODUCT_ID="+prodID);
+            // Delete row from products table
+            ResultSet rset = stmt.executeQuery("DELETE FROM PRODUCTS WHERE PRODUCT_ID=" + prodID);
             JSONObject obj;//
-            // Close the RseultSet
+            // Close the Result set
             rset.close();
             rset = null;
 
             // Close the Statement
             stmt.close();
             stmt = null;
-            
+
             conn.close();
-            
 
         } catch (SQLException e) {
             System.out.println("Connection Unsuccessful with errror " + e.getMessage());
             e.printStackTrace();
         }
-     }
-     public static void updateProducts(int prodID, String prodname,double listPrice ) {
-    readProperties();
+    }
+
+    public static void updateProducts(int prodID, String prodname, double listPrice) {
+        readProperties();
         try {
             OracleDataSource ODS = new OracleDataSource();
 
@@ -240,23 +230,21 @@ public class ATPDBUtils {
             Connection conn = ODS.getConnection();
             System.out.println("Connection test Succeeded. You are connected to ATP as Admin!");
             Statement stmt = conn.createStatement();
-            Random rand = new Random();
-            int n = rand.nextInt(5000) + 1;
-            // Select the ENAME column from the EMP table
- //stmt.executeUpdate("INSERT INTO PRODUCTS (PRODUCT_ID, PARENT_CATEGORY_ID, CATEGORY_ID, PRODUCT_NAME, PRODUCT_STATUS, COST_PRICE, LIST_PRICE, MIN_PRICE, warranty_period_months, EXTERNAL_URL, ATTRIBUTE_CATEGORY, ATTRIBUTE1, ATTRIBUTE2, ATTRIBUTE3, ATTRIBUTE4, ATTRIBUTE5, CREATED_BY, CREATION_DATE, LAST_UPDATED_BY, LAST_UPDATE_DATE, OBJECT_VERSION_ID) VALUES ("+n+", 10003.0, 10012.0, '"+prodname+"', 'AVAILABLE', 3.49, 4.99, 1.53, '6', '"+url+"', '', '', '', '', '', '6', '0', to_date('10-JAN-14', 'DD-MON-RR'), '0', to_date('10-JAN-14', 'DD-MON-RR'), 1.0)");            
- stmt.executeUpdate("update PRODUCTS set LIST_PRICE='"+listPrice+"',PRODUCT_NAME='"+prodname+"' where PRODUCT_ID="+prodID);
-//stmt.executeUpdate("INSERT INTO PRODUCTS (PRODUCT_ID, PARENT_CATEGORY_ID, CATEGORY_ID, PRODUCT_NAME, PRODUCT_STATUS, COST_PRICE, LIST_PRICE, MIN_PRICE, warranty_period_months, EXTERNAL_URL, ATTRIBUTE_CATEGORY, ATTRIBUTE1, ATTRIBUTE2, ATTRIBUTE3, ATTRIBUTE4, ATTRIBUTE5, CREATED_BY, CREATION_DATE, LAST_UPDATED_BY, LAST_UPDATE_DATE, OBJECT_VERSION_ID) VALUES (10020.0, 10000.0, 10017.0, 'Scotch¿ Bubble Pouches, 8 x 10, Clear, Pack Of 8', 'AVAILABLE', 14.37, 16.99, 12.25, '6', 'Images/OfficeSupplyProducts/Ship/Ship-BubbleWrap_8x10.jpg', '', '', '', '', '', '6', '0', to_date('10-JAN-14', 'DD-MON-RR'), '0', to_date('10-JAN-14', 'DD-MON-RR'), 1.0)");            
-// Close the Statement
+
+            stmt.executeUpdate("update PRODUCTS set LIST_PRICE='" + listPrice + "',PRODUCT_NAME='" + prodname + "' where PRODUCT_ID=" + prodID);
+
+            // Close the Statement
             stmt.close();
-            stmt = null;   
+            stmt = null;
             conn.close();
         } catch (SQLException e) {
             System.out.println("Connection Unsuccessful with errror " + e.getMessage());
             e.printStackTrace();
         }
     }
+
     public static void updateProducts(int prodID, double listPrice) {
-    readProperties();
+        readProperties();
         try {
             OracleDataSource ODS = new OracleDataSource();
 
@@ -267,21 +255,18 @@ public class ATPDBUtils {
             Connection conn = ODS.getConnection();
             System.out.println("Connection test Succeeded. You are connected to ATP as Admin!");
             Statement stmt = conn.createStatement();
-            Random rand = new Random();
-            int n = rand.nextInt(5000) + 1;
-            // Select the ENAME column from the EMP table
- //stmt.executeUpdate("INSERT INTO PRODUCTS (PRODUCT_ID, PARENT_CATEGORY_ID, CATEGORY_ID, PRODUCT_NAME, PRODUCT_STATUS, COST_PRICE, LIST_PRICE, MIN_PRICE, warranty_period_months, EXTERNAL_URL, ATTRIBUTE_CATEGORY, ATTRIBUTE1, ATTRIBUTE2, ATTRIBUTE3, ATTRIBUTE4, ATTRIBUTE5, CREATED_BY, CREATION_DATE, LAST_UPDATED_BY, LAST_UPDATE_DATE, OBJECT_VERSION_ID) VALUES ("+n+", 10003.0, 10012.0, '"+prodname+"', 'AVAILABLE', 3.49, 4.99, 1.53, '6', '"+url+"', '', '', '', '', '', '6', '0', to_date('10-JAN-14', 'DD-MON-RR'), '0', to_date('10-JAN-14', 'DD-MON-RR'), 1.0)");            
- stmt.executeUpdate("update PRODUCTS set LIST_PRICE='"+listPrice+"' where PRODUCT_ID="+prodID);
-//stmt.executeUpdate("INSERT INTO PRODUCTS (PRODUCT_ID, PARENT_CATEGORY_ID, CATEGORY_ID, PRODUCT_NAME, PRODUCT_STATUS, COST_PRICE, LIST_PRICE, MIN_PRICE, warranty_period_months, EXTERNAL_URL, ATTRIBUTE_CATEGORY, ATTRIBUTE1, ATTRIBUTE2, ATTRIBUTE3, ATTRIBUTE4, ATTRIBUTE5, CREATED_BY, CREATION_DATE, LAST_UPDATED_BY, LAST_UPDATE_DATE, OBJECT_VERSION_ID) VALUES (10020.0, 10000.0, 10017.0, 'Scotch¿ Bubble Pouches, 8 x 10, Clear, Pack Of 8', 'AVAILABLE', 14.37, 16.99, 12.25, '6', 'Images/OfficeSupplyProducts/Ship/Ship-BubbleWrap_8x10.jpg', '', '', '', '', '', '6', '0', to_date('10-JAN-14', 'DD-MON-RR'), '0', to_date('10-JAN-14', 'DD-MON-RR'), 1.0)");            
-// Close the Statement
+
+            stmt.executeUpdate("update PRODUCTS set LIST_PRICE='" + listPrice + "' where PRODUCT_ID=" + prodID);
+            // Close the Statement
             stmt.close();
-            stmt = null;   
+            stmt = null;
             conn.close();
         } catch (SQLException e) {
             System.out.println("Connection Unsuccessful with errror " + e.getMessage());
             e.printStackTrace();
         }
-    }        
+    }
+
     private static void readProperties() {
         Properties prop = new Properties();
         InputStream input = null;
@@ -295,7 +280,7 @@ public class ATPDBUtils {
             PASSWORD = prop.getProperty("dbpassword");
             CREDENTIALS = prop.getProperty("dbcredpath");
         } catch (IOException e) {
-            
+
         }
     }
 }
